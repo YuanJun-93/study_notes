@@ -516,13 +516,34 @@ git push
 
 ```
 cd /home/jun_yuan/textin-studio-k3s/manifest
+kubectl apply -f ingress-nginx.yaml
 kubectl apply -f vscode.yaml
 kubectl apply -f web.yaml 
 kubectl apply -f user-manager.yaml 
 kubectl apply -f testing.yaml
 kubectl apply -f registry.yaml
+kubectl apply -f redis.yaml
 kubectl apply -f recognize_document.yaml
 kubectl apply -f prometheus.yaml
+kubectl apply -f product.yaml
+kubectl apply -f oven.yaml
+kubectl apply -f nvidia-device-plugin.yaml
+# kubectl apply -f node-exporter.yaml
+kubectl apply -f mysql.yaml
+kubectl apply -f mongo.yaml
+kubectl apply -f minio.yaml
+kubectl apply -f ingress-nginx.yaml
+kubectl apply -f erase_words.yaml
+kubectl apply -f dcgm_exporter.yaml
+kubectl apply -f data_generation.yaml
+kubectl apply -f dashboard.yaml 
+kubectl apply -f common.yaml
+kubectl apply -f citadel_warehouse.yaml
+kubectl apply -f argo-roles.yaml 
+kubectl apply -f argo.yaml
+kubectl apply -f anchor_tasks.yaml
+sudo k3s kubectl  delete -f node-exporter.yaml
+# sudo k3s kubectl delete --all pods -n default
 ```
 
 
@@ -549,4 +570,56 @@ kubectl delete ClusterRoleBinding prometheus-server
 kubectl delete ServiceAccount auto-training
 kubectl delete ConfigMap customized-nvidia-device-plugin -n kube-system
 kubectl delete DaemonSet nvidia-device-plugin-daemonset -n kube-system
+kubectl delete Deployment argo-server -n argo
+kubectl delete all --all -n argo
+kubectl delete svc kubernetes-dashboard -n kubernetes-dashboard
+kubectl delete all --all -n kubernetes-dashboard
+kubectl delete ClusterRole kubernetes-dashboard
+kubectl delete all --all -n ingress-nginx
+kubectl delete ClusterRole ingress-nginx
+kubectl delete ClusterRoleBinding ingress-nginx
+kubectl delete ServiceAccount ingress-nginx
+kubectl delete namespace ingress-nginx
+kubectl delete configmap ingress-nginx-controller
+kubectl delete Service prometheus-server
+kubectl delete Deployment prometheus-server
+kubectl delete ClusterRole prometheus-server
+kubectl delete ServiceAccount prometheus-server
+cd ~/k3s-manifest/
+
 ```
+
+**安装**
+
+```
+sudo k3s kubectl apply -f yamls/
+```
+
+**删除**
+
+```
+cd ~/textin-studio-k3s/
+sudo k3s kubectl delete -f yamls/
+cd ~/k3s-manifest/
+```
+
+**new**
+
+```
+git pull
+cp -r templates/ back
+mv templates/dashboard.yaml .
+rm -f templates/*
+mv dashboard.yaml templates/
+
+
+cd ~/textin-studio-k3s/
+sudo k3s kubectl delete -f yamls/dashboard.yaml
+cd ~/k3s-manifest/
+helm install -n public-service textin-studio . --dry-run
+
+
+cd ~/textin-studio-k3s/
+sudo k3s kubectl apply -f yamls/dashboard.yaml
+```
+

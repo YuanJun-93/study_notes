@@ -623,3 +623,45 @@ cd ~/textin-studio-k3s/
 sudo k3s kubectl apply -f yamls/dashboard.yaml
 ```
 
+**删除namespace**
+
+导出yaml描述信息
+
+```
+kubectl get namespace dev -o json > tmp.json
+```
+
+删除spec和status的所有内容，然后保存
+
+删除后
+
+```
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"kubernetes-dashboard\"}}\n"
+        },
+        "creationTimestamp": "2020-10-08T12:11:06Z",
+        "deletionTimestamp": "2020-10-09T03:22:56Z",
+        "name": "kubernetes-dashboard",
+        "resourceVersion": "311861",
+        "selfLink": "/api/v1/namespaces/kubernetes-dashboard",
+        "uid": "57df1ddf-095f-11eb-89f9-000c29f4bf17"
+    }
+}
+```
+
+新打开一个终端
+
+```
+kubectl proxy
+```
+
+在原终端调用API删除
+
+```
+curl -k -H "Content-Type: application/json" -X PUT --data-binary @tmp.json http://127.0.0.1:8001/api/v1/namespaces/dev/finalize
+```
+
